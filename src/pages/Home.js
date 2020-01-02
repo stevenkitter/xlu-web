@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { Switch, Route } from "react-router-dom";
+import Nav from "../components/Nav";
+import Main from "./home/Main";
 
 class Home extends Component {
   constructor(props) {
@@ -10,7 +13,12 @@ class Home extends Component {
   render() {
     return (
       <div className="home">
-        <button className="btn">主页</button>
+        <Nav />
+        <Switch>
+          <Route path="/">
+            <Main />
+          </Route>
+        </Switch>
       </div>
     );
   }
