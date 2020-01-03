@@ -1,5 +1,5 @@
-import { DATA_REQUESTED } from "../constant/action-types";
+import { PRODUCTS_REQUESTED } from "../constant/action-types";
 
-export function getData() {
-  return { type: DATA_REQUESTED };
+export function getProducts(offset, keyword) {
+  return { type: PRODUCTS_REQUESTED, payload: { offset, keyword } };
 }

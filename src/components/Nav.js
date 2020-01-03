@@ -12,8 +12,6 @@ class Nav extends Component {
   }
 
   render() {
-    const { url } = this.props.match;
-    console.log(url);
     return (
       <nav className="navbar is-spaced has-shadow">
         <div className="container">

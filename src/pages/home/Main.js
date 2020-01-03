@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
-import { getData } from "../../redux/actions/index";
+import { getProducts } from "../../redux/actions/index";
+import Product from "../../components/home/Product";
 import Labadong from "../../assets/images/labadong.gif";
 
 const HomeMain = styled.div`
@@ -12,6 +13,8 @@ const HomeMainTopFlexCenter = styled.div`
   align-items: center;
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
+  margin-top: ${props => (props.marginTop ? "40px" : "0")};
 `;
 
 const HomeMainTopCenter = styled.div`
@@ -34,11 +37,12 @@ class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchText: ""
+      searchText: "",
+      offset: 0
     };
   }
   componentDidMount() {
-    this.props.getData();
+    this.props.getProducts(this.state.offset, this.state.searchText);
   }
   onChange = event => {
     this.setState({ searchText: event.target.value });
@@ -47,7 +51,7 @@ class Main extends Component {
     event.preventDefault();
     if (this.state.searchText) {
       //TODO 处理用户输入
-      alert(this.state.searchText);
+      this.props.getProducts(this.state.offset, this.state.searchText);
       this.setState({ searchText: "" });
     }
   };
@@ -77,13 +81,18 @@ class Main extends Component {
             </Field>
           </form>
         </SearchContainer>
+        <HomeMainTopFlexCenter marginTop>
+          {this.props.product.products.map((product, i) => {
+            return <Product key={i} product={product} />;
+          })}
+        </HomeMainTopFlexCenter>
       </HomeMain>
     );
   }
 }
 function mapStateToProps(state) {
   return {
-    articles: state.remoteArticles
+    product: state.product
   };
 }
-export default connect(mapStateToProps, { getData })(Main);
+export default connect(mapStateToProps, { getProducts })(Main);

@@ -1,20 +1,23 @@
 import { takeEvery, call, put } from "redux-saga/effects";
+import {
+  PRODUCTS_REQUESTED,
+  PRODUCTS_REQUEST_SUCCESS
+} from "../constant/action-types";
+import { api } from "../apis/product";
 
 export default function* watcherSaga() {
-  yield takeEvery("DATA_REQUESTED", workerSaga);
+  yield takeEvery(PRODUCTS_REQUESTED, fetchProducts);
 }
 
-function* workerSaga() {
+function* fetchProducts(action) {
   try {
-    const payload = yield call(getData);
-    yield put({ type: "DATA_REQUEST_SUCCESS", payload });
+    const payload = yield call(
+      api.fetchProducts,
+      action.payload.offset,
+      action.payload.keyword
+    );
+    yield put({ type: PRODUCTS_REQUEST_SUCCESS, payload });
   } catch (e) {
-    yield put({ type: "DATA_REQUEST_ERROR", payload: e });
+    yield put({ type: "PRODUCTS_REQUEST_ERROR", payload: e });
   }
-}
-
-function getData() {
-  return fetch("https://jsonplaceholder.typicode.com/posts").then(response =>
-    response.json()
-  );
 }
