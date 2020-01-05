@@ -10,13 +10,20 @@ class Nav extends Component {
       burgerShow: false
     };
   }
+  burgerClicked = event => {
+    event.preventDefault();
+    const b = this.state.burgerShow;
+    this.setState({
+      burgerShow: !b
+    });
+  };
 
   render() {
     return (
       <nav className="navbar is-spaced has-shadow">
         <div className="container">
           {/* brand */}
-          <NavBrand />
+          <NavBrand burgerClicked={this.burgerClicked} />
           {/* content */}
           <div
             id="navbar-content"

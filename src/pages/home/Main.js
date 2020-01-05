@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
+import { Icon, Pagination } from "semantic-ui-react";
 import { getProducts } from "../../redux/actions/index";
 import Product from "../../components/home/Product";
 import Labadong from "../../assets/images/labadong.gif";
@@ -38,21 +39,30 @@ class Main extends Component {
     super(props);
     this.state = {
       searchText: "",
-      offset: 0
+      page: 1
     };
   }
   componentDidMount() {
-    this.props.getProducts(this.state.offset, this.state.searchText);
+    this.props.getProducts(this.state.page, this.state.searchText);
   }
+  requestData = () => {
+    this.props.getProducts(this.state.page, this.state.searchText);
+  };
   onChange = event => {
     this.setState({ searchText: event.target.value });
+  };
+  onPageChange = (e, value) => {
+    console.log(value);
+    const that = this;
+    this.setState({ page: value.activePage }, function() {
+      that.requestData();
+    });
   };
   handleSubmit = event => {
     event.preventDefault();
     if (this.state.searchText) {
       //TODO 处理用户输入
-      this.props.getProducts(this.state.offset, this.state.searchText);
-      this.setState({ searchText: "" });
+      this.props.getProducts(this.state.page, this.state.searchText);
     }
   };
   render() {
@@ -83,9 +93,30 @@ class Main extends Component {
         </SearchContainer>
         <HomeMainTopFlexCenter marginTop>
           {this.props.product.products.map((product, i) => {
-            return <Product key={i} product={product} />;
+            return product && <Product key={i} product={product} />;
           })}
         </HomeMainTopFlexCenter>
+        {this.props.product.total > 0 && (
+          <Pagination
+            ellipsisItem={{
+              content: <Icon name="ellipsis horizontal" />,
+              icon: true
+            }}
+            firstItem={{
+              content: <Icon name="angle double left" />,
+              icon: true
+            }}
+            lastItem={{
+              content: <Icon name="angle double right" />,
+              icon: true
+            }}
+            prevItem={{ content: <Icon name="angle left" />, icon: true }}
+            nextItem={{ content: <Icon name="angle right" />, icon: true }}
+            totalPages={(this.props.product.total / 20 + 1).toFixed(0)}
+            activePage={this.state.page}
+            onPageChange={this.onPageChange}
+          />
+        )}
       </HomeMain>
     );
   }

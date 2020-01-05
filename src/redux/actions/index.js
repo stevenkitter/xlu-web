@@ -1,5 +1,15 @@
-import { PRODUCTS_REQUESTED } from "../constant/action-types";
+import {
+  PRODUCTS_REQUESTED,
+  CREATE_TAOBAO_PWD
+} from "../constant/action-types";
 
-export function getProducts(offset, keyword) {
-  return { type: PRODUCTS_REQUESTED, payload: { offset, keyword } };
+export function getProducts(page, keyword) {
+  return { type: PRODUCTS_REQUESTED, payload: { page, keyword } };
+}
+
+export function createTaobaoPwd(title, url) {
+  return {
+    type: CREATE_TAOBAO_PWD,
+    payload: { title, url }
+  };
 }

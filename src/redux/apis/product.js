@@ -1,12 +1,23 @@
-import { Products } from "../constant/request";
+import { Products, CreateTaobaoPwd } from "../constant/request";
 
 export const api = {
-  async fetchProducts(offset, keyword) {
+  async fetchProducts(page, keyword) {
     const response = await fetch(
       keyword.length > 0
-        ? Products + "?offset=" + offset + "&keyword=" + keyword
-        : Products + "?offset=" + offset
+        ? Products + "?page=" + page + "&keyword=" + keyword
+        : Products + "?page=" + page
     );
+    return await response.json();
+  },
+
+  async createPwd(title, url) {
+    const response = await fetch(CreateTaobaoPwd, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ title: title, url: url })
+    });
     return await response.json();
   }
 };

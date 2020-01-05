@@ -21,12 +21,7 @@ class NavBrand extends Component {
           className="navbar-burger burger"
           data-target="navbar-content"
           href="/"
-          onClick={() => {
-            const b = this.state.burgerShow;
-            this.setState({
-              burgerShow: !b
-            });
-          }}
+          onClick={this.props.burgerClicked}
         >
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>

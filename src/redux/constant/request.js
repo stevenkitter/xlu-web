@@ -6,3 +6,4 @@ export const Host =
 export const Version = "/v1";
 
 export const Products = Host + Version + "/product/list";
+export const CreateTaobaoPwd = Host + Version + "/product/tpwd";
