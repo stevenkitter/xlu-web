@@ -11,12 +11,10 @@ class XLModal extends Component {
     };
   }
   componentDidMount = () => {
-    console.log("xxxxx");
     const button = this.button;
     const pwd = this.props.pwd;
     this.clipboard = new Clipboard(button, {
       text: function(trigger) {
-        console.log(pwd);
         return pwd;
       }
     });

@@ -52,7 +52,6 @@ class Main extends Component {
     this.setState({ searchText: event.target.value });
   };
   onPageChange = (e, value) => {
-    console.log(value);
     const that = this;
     this.setState({ page: value.activePage }, function() {
       that.requestData();
