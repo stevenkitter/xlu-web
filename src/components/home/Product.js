@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import XLModel from "./XLModal";
 import { api } from "../../redux/apis/product";
-
+import { connect } from "react-redux";
+import { openModal } from "../../redux/actions";
 const Container = styled.a`
   margin: 0 0.3rem;
   &:last-child {
@@ -26,11 +26,11 @@ const Icon = styled.div`
   }
 `;
 
-const Input = styled.input`
-  opacity: 0;
-  position: absolute;
-  z-index: -1;
-`;
+// const Input = styled.input`
+//   opacity: 0;
+//   position: absolute;
+//   z-index: -1;
+// `;
 
 class Product extends Component {
   constructor(props) {
@@ -49,15 +49,18 @@ class Product extends Component {
     e.preventDefault();
     const url = "https:" + this.props.product.coupon_share_url;
     const that = this;
-    const open = this.state.open;
+    // const open = this.state.open;
     this.requestData(this.props.product.title, url).then(res => {
-      that.setState({
-        open: !open,
-        pwd: res.data.model
-      });
+      // console.log(res);
+      that.props.openModal(res.data.model);
+      // that.setState({
+      //   open: true,
+      //   pwd: res.data.model
+      // });
     });
   };
-  closeModal = () => {
+  closeModal = e => {
+    e.preventDefault();
     this.setState({
       open: false
     });
@@ -65,53 +68,35 @@ class Product extends Component {
   componentWillUnmount() {}
   render() {
     return (
-      <Container
-        className="box"
-        onClick={this.handleClick}
-        // href={"http:" + this.props.product.coupon_share_url}
-        // target="_blank"
-      >
-        <Icon>
-          <img
-            src={this.props.product.pict_url}
-            alt="icon"
-            width="90"
-            height="90"
-          />
-        </Icon>
-        <Width100 className="is-size-7">
-          {this.props.product.title.length > 20
-            ? this.props.product.title.slice(0, 20) + "..."
-            : this.props.product.title}
-        </Width100>
-        <p className="is-size-7 has-text-danger">
-          {"优惠券: ¥" + this.props.product.coupon_amount}
-        </p>
-        <p className="is-size-7">
-          {"券后价: ¥" +
-            (
-              this.props.product.zk_final_price -
-              this.props.product.coupon_amount
-            ).toFixed(2)}
-        </p>
-        <Input
-          type="text"
-          value={this.state.pwd}
-          ref={element => {
-            this.input = element;
-          }}
-          readOnly
-        />
-        {this.state.open && (
-          <XLModel
-            open={this.state.open}
-            pwd={this.state.pwd}
-            close={this.closeModal}
-          />
-        )}
-      </Container>
+      <div className="box-container" onClick={this.handleClick}>
+        <Container className="box">
+          <Icon>
+            <img
+              src={this.props.product.pict_url}
+              alt="icon"
+              width="90"
+              height="90"
+            />
+          </Icon>
+          <Width100 className="is-size-7">
+            {this.props.product.title.length > 20
+              ? this.props.product.title.slice(0, 20) + "..."
+              : this.props.product.title}
+          </Width100>
+          <p className="is-size-7 has-text-danger">
+            {"优惠券: ¥" + this.props.product.coupon_amount}
+          </p>
+          <p className="is-size-7">
+            {"券后价: ¥" +
+              (
+                this.props.product.zk_final_price -
+                this.props.product.coupon_amount
+              ).toFixed(2)}
+          </p>
+        </Container>
+      </div>
     );
   }
 }
 
-export default Product;
+export default connect(null, { openModal })(Product);

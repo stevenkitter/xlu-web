@@ -5,6 +5,7 @@ import { Icon, Pagination } from "semantic-ui-react";
 import { getProducts } from "../../redux/actions/index";
 import Product from "../../components/home/Product";
 import Labadong from "../../assets/images/labadong.gif";
+import XLModel from "../../components/home/XLModal";
 
 const HomeMain = styled.div`
   padding: 1rem 0;
@@ -78,7 +79,7 @@ class Main extends Component {
               <Input
                 type="text"
                 className="input is-radiusless"
-                placeholder="随便"
+                placeholder="搜索您要买的商品标题"
                 value={this.state.searchText}
                 onChange={this.onChange}
               />
@@ -96,26 +97,30 @@ class Main extends Component {
           })}
         </HomeMainTopFlexCenter>
         {this.props.product.total > 0 && (
-          <Pagination
-            ellipsisItem={{
-              content: <Icon name="ellipsis horizontal" />,
-              icon: true
-            }}
-            firstItem={{
-              content: <Icon name="angle double left" />,
-              icon: true
-            }}
-            lastItem={{
-              content: <Icon name="angle double right" />,
-              icon: true
-            }}
-            prevItem={{ content: <Icon name="angle left" />, icon: true }}
-            nextItem={{ content: <Icon name="angle right" />, icon: true }}
-            totalPages={(this.props.product.total / 20 + 1).toFixed(0)}
-            activePage={this.state.page}
-            onPageChange={this.onPageChange}
-          />
+          <HomeMainTopFlexCenter>
+            <Pagination
+              size="mini"
+              ellipsisItem={{
+                content: <Icon name="ellipsis horizontal" />,
+                icon: true
+              }}
+              firstItem={{
+                content: <Icon name="angle double left" />,
+                icon: true
+              }}
+              lastItem={{
+                content: <Icon name="angle double right" />,
+                icon: true
+              }}
+              prevItem={{ content: <Icon name="angle left" />, icon: true }}
+              nextItem={{ content: <Icon name="angle right" />, icon: true }}
+              totalPages={(this.props.product.total / 20 + 1).toFixed(0)}
+              activePage={this.state.page}
+              onPageChange={this.onPageChange}
+            />
+          </HomeMainTopFlexCenter>
         )}
+        <XLModel />
       </HomeMain>
     );
   }
