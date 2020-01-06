@@ -35,7 +35,12 @@ class XLModal extends Component {
       <Modal size="mini" open={this.props.open} onClose={this.props.close}>
         <Modal.Header>复制您的淘口令</Modal.Header>
         <Modal.Content>
-          <p>{this.props.pwd}</p>
+          <input
+            className="input"
+            type="text"
+            value={this.props.pwd}
+            readOnly
+          />
         </Modal.Content>
         <Modal.Actions>
           <a href="/" className="button">
